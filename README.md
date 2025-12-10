@@ -53,4 +53,3 @@ Manual deployment:
 ```bash
 firebase deploy --only hosting,functions,firestore
 ```
-
