@@ -1,0 +1,8 @@
+{
+  "projects": {
+    "default": "ineisha-477012"
+  },
+  "storage": {
+    "defaultBucket": "ineisha-477012-storage"
+  }
+}

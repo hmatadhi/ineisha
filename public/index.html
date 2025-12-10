@@ -1,0 +1,510 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Common Tests | Ineisha Diagnostic Laboratory</title>
+  <meta name="description" content="Patient-friendly overview of common laboratory tests at Ineisha Diagnostic Laboratory: hematology, biochemistry, microbiology, pathology, cytology, molecular diagnostics, and preventive packages." />
+  <meta name="theme-color" content="#0a3a78" />
+  <style>
+    :root{
+      --brand-blue:#0a3a78;
+      --brand-blue-2:#175fbf;
+      --brand-gold:#f2b233;
+      --ink:#0f172a;
+      --muted:#475569;
+      --bg:#f7fafc;
+      --card:#ffffff;
+      --ring:rgba(23,95,191,.25);
+      --shadow:0 8px 24px rgba(2,28,71,.08);
+      --radius:14px;
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Helvetica,Arial,sans-serif;color:var(--ink);background:var(--bg);}
+    a{color:var(--brand-blue-2);text-decoration:none}
+    a:hover{text-decoration:underline}
+    .container{max-width:1200px;margin:0 auto;padding:clamp(16px,3vw,28px)}
+    header{position:sticky;top:0;background:#fff;border-bottom:1px solid #e2e8f0;z-index:1000}
+    .topbar{display:flex;align-items:center;gap:16px;justify-content:space-between}
+    .logo{display:flex;align-items:center;gap:10px;font-weight:800;color:var(--brand-blue)}
+    .logo svg{width:28px;height:28px}
+    nav{display:flex;gap:18px;align-items:center;flex-wrap:wrap}
+    nav a{font-weight:600;color:var(--brand-blue)}
+    .btn{display:inline-flex;align-items:center;gap:10px;border-radius:999px;padding:12px 18px;font-weight:700;border:1px solid transparent;box-shadow:var(--shadow);cursor:pointer}
+    .btn.primary{background:linear-gradient(135deg,var(--brand-blue),var(--brand-blue-2));color:#fff}
+    .btn.ghost{background:#fff;border-color:#e2e8f0;color:var(--brand-blue)}
+    .hero{background:
+      radial-gradient(1200px 600px at -10% -40%, #eaf2ff 10%, transparent 50%),
+      radial-gradient(900px 500px at 120% -30%, #eaf2ff 10%, transparent 55%),
+      #fff;
+      border-bottom:1px solid #e2e8f0;
+    }
+    .hero-grid{display:grid;grid-template-columns:1.2fr .8fr;gap:32px;align-items:center}
+    .hero h1{font-size:clamp(28px,4vw,44px);margin:6px 0 10px;color:var(--brand-blue)}
+    .hero p{color:var(--muted);font-size:clamp(15px,2vw,18px);line-height:1.6}
+    .pill{display:inline-flex;gap:8px;align-items:center;border:1px solid #dbeafe;background:#eff6ff;color:#1e3a8a;border-radius:999px;padding:6px 12px;font-weight:700;font-size:13px}
+    .grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+    @media (max-width:980px){.hero-grid{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:640px){.grid{grid-template-columns:1fr}}
+    .card{background:var(--card);border:1px solid #e2e8f0;border-radius:var(--radius);padding:18px;box-shadow:var(--shadow)}
+    .card h3{margin:6px 0 8px;color:var(--brand-blue)}
+    .card p{margin:0;color:var(--muted)}
+    .icon{width:38px;height:38px;display:inline-flex;align-items:center;justify-content:center;border-radius:10px;background:#eef2ff;border:1px solid #dbeafe;margin-bottom:8px}
+    .icon svg{width:22px;height:22px}
+    .accent{color:var(--brand-gold);font-weight:800}
+    details{background:#fff;border:1px solid #e2e8f0;border-radius:12px;padding:14px 16px;box-shadow:var(--shadow)}
+    details+details{margin-top:10px}
+    summary{cursor:pointer;font-weight:800;color:var(--brand-blue)}
+    .list{margin:10px 0 0 0;padding:0 0 0 18px;color:#334155;line-height:1.7}
+    .cta{display:flex;gap:14px;flex-wrap:wrap;margin-top:14px}
+    .band{background:linear-gradient(120deg,#0a3a78,#175fbf);padding:28px 0;color:#fff;margin-top:26px}
+    .band .container{display:flex;gap:18px;flex-wrap:wrap;align-items:center;justify-content:space-between}
+    .band p{margin:0;opacity:.95}
+    footer{background:#0b1830;color:#cbd5e1;margin-top:40px}
+    footer .credits{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px}
+    .small{font-size:13px;color:#64748b}
+    .badge{display:inline-flex;align-items:center;gap:8px;padding:6px 10px;border:1px solid #e2e8f0;border-radius:999px;background:#fff}
+  </style>
+
+  <style>
+/* --- NEW MODAL STYLES --- */
+    .modal-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.7); /* Dark semi-transparent background */
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2000; /* Ensure it's above everything else */
+      visibility: hidden; /* Use visibility to hide/show */
+      opacity: 0;
+      transition: opacity 0.3s, visibility 0.3s;
+    }
+    .modal-overlay.open {
+      visibility: visible;
+      opacity: 1;
+    }
+    .modal-content {
+      background: var(--card);
+      border-radius: var(--radius);
+      padding: 24px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 90vh;
+      overflow-y: auto;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+      transform: scale(0.95);
+      transition: transform 0.3s ease-out;
+    }
+    .modal-overlay.open .modal-content {
+      transform: scale(1);
+    }
+    .close-btn {
+      float: right;
+      font-size: 24px;
+      font-weight: bold;
+      color: var(--muted);
+      cursor: pointer;
+      line-height: 1;
+      margin-left: 10px;
+    }
+    /* Add basic styling for form elements within the modal */
+    #bookingForm input[type="text"],
+    #bookingForm textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 6px 0 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      box-sizing: border-box;
+      font-family: inherit;
+    }
+    .test-item input {
+      margin-right: 10px;
+      width: calc(50% - 10px);
+    }
+    #tests .test-item:last-child input {
+      margin-bottom: 12px;
+    }
+
+  </style>
+
+<script>
+  // This is the correct, same-origin path for the Firebase Hosting rewrite rule.
+  const scriptURL = "/booking";
+  //const scriptURL = "http://127.0.0.1:5001/ineisha-477012/us-central1/proxyToAppsScript";
+
+  document.addEventListener('DOMContentLoaded', () => {
+    
+    const modal = document.getElementById('bookingModal');
+    const bookTestBtn = document.getElementById('bookTestBtn');
+    const closeModalBtn = document.getElementById('closeModal');
+    const bookingForm = document.getElementById('bookingForm'); // Get the form reference
+
+    // 1. Show the modal
+    bookTestBtn.onclick = () => {
+      modal.classList.add('open');
+    };
+
+    // 2. Hide the modal (on click of 'X' or outside the content)
+    closeModalBtn.onclick = () => {
+      modal.classList.remove('open');
+    };
+
+    // Optional: Close modal if user clicks outside the content box
+    modal.onclick = (e) => {
+      if (e.target === modal) {
+        modal.classList.remove('open');
+      }
+    };
+
+    // 3. Add Test Logic (remains mostly the same)
+    document.getElementById('addTest').onclick = () => {
+      const div = document.createElement('div');
+      div.classList.add('test-item');
+      div.innerHTML = `
+        <input type="text" name="testName" placeholder="Test Name" required>
+        <input type="text" name="testDesc" placeholder="Description (optional)">
+      `;
+      document.getElementById('tests').appendChild(div);
+    };
+
+    // 4. Form Submission Logic
+    bookingForm.onsubmit = async (e) => { // Use the direct variable reference
+      e.preventDefault();
+      const form = e.target;
+      const tests = [...form.querySelectorAll('.test-item')].map(item => ({
+        name: item.querySelector('[name="testName"]').value,
+        description: item.querySelector('[name="testDesc"]').value
+      }));
+
+      const data = {
+        name: form.name.value,
+        address: form.address.value,
+        contact: form.contact.value,
+        tests
+      };
+
+        alert("Submitting form...to " + scriptURL + " with data: " + JSON.stringify(data));
+
+      const res = await fetch(scriptURL, {
+        method: "POST",
+        body: JSON.stringify(data),
+        headers: { "Content-Type": "application/json" }
+      });
+
+      const result = await res.json();
+      alert(result.status === "success" ? "Submitted!" : "Error: " + result.message);
+      
+      if (result.status === "success") {
+          form.reset();
+          modal.classList.remove('open'); // Close on success
+      }
+    };
+  });
+</script>
+
+</head>
+<body>
+    <header>
+    <div class="container topbar">
+      <div class="logo" aria-label="Ineisha Diagnostic Laboratory">
+        <span><h1 style="font-size: 3em">Ineisha Diagnostic Laboratory</h1></span>
+      </div>
+  <!--
+      <nav>
+        <a href="#tests">Tests</a>
+        <a href="#packages">Packages</a>
+        <a href="#faq">FAQ</a>
+        <a href="#contact" class="btn ghost">Contact</a>
+        <a href="#book" class="btn primary">Book a Test</a>
+      </nav>
+   -->
+    </div>
+  </header>
+  <section class="hero">
+    <div class="container hero-grid">
+      <div>
+        <span class="pill">
+          <!-- shield check icon -->
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M12 3l7 3v6c0 5-3.5 7.5-7 9-3.5-1.5-7-4-7-9V6l7-3z"/><path d="M9 12l2 2 4-4"/>
+          </svg>
+          ISO 15189:2022 Compliant
+        </span>
+        <!--
+          <h1>Available Tests</h1>
+        <p>
+          Explore the most frequently requested investigations at <strong>Ineisha Diagnostic Laboratory</strong>.
+          Every report is delivered with <span class="accent">accuracy</span>, <span class="accent">speed</span> and
+          <span class="accent">clinical relevance</span>—verified by experienced pathologists.
+        </p>
+        -->
+        <div class="cta">
+	  <button id="bookTestBtn" class="btn primary">Book A Test</button>
+	  <!--<a href="#book" class="btn ghost">Get a Quote</a> -->
+        </div>
+      </div>
+
+<!--
+<div id="testForm" style="display:none;">
+  <form id="bookingForm">
+    <input type="text" name="name" placeholder="Patient Name" required><br>
+    <textarea name="address" placeholder="Address" required></textarea><br>
+    <input type="text" name="contact" placeholder="Contact Details" required><br>
+
+    <div id="tests">
+      <div class="test-item">
+        <input type="text" name="testName" placeholder="Test Name" required>
+        <input type="text" name="testDesc" placeholder="Description (optional)">
+      </div>
+    </div>
+    <button type="button" id="addTest">+ Add Test</button><br><br>
+    <button type="submit">Submit</button>
+  </form>
+</div>
+-->
+
+<div id="bookingModal" class="modal-overlay">
+  <div class="modal-content">
+    <span class="close-btn" id="closeModal">&times;</span>
+    <h3 style="color:var(--brand-blue); margin-top:0;">Book a Home Sample Collection</h3>
+    
+    <form id="bookingForm">
+      <input type="text" name="name" placeholder="Patient Name" required>
+      <textarea name="address" placeholder="Address" rows="3" required></textarea>
+      <input type="text" name="contact" placeholder="Contact Details (Phone/Email)" required>
+
+      <h4 style="margin: 16px 0 8px; color: var(--ink);">Tests Required</h4>
+      <div id="tests">
+        <div class="test-item">
+          <input type="text" name="testName" placeholder="Test Name" required>
+          <input type="text" name="testDesc" placeholder="Description (optional)">
+        </div>
+      </div>
+      <button type="button" id="addTest" class="btn ghost" style="padding: 8px 14px; box-shadow: none;">+ Add Test</button><br>
+      <button type="submit" class="btn primary" style="width: 100%; margin-top: 20px;">Submit Booking Request</button>
+    </form>
+  </div>
+</div>
+
+      <div class="card">
+        <div class="badge">
+          <!-- clock -->
+          <svg viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.6">
+            <circle cx="12" cy="12" r="9"/><path d="M12 7v5l4 2"/>
+          </svg>
+          Fast TAT
+        </div>
+        <h3>Patient-first diagnostics</h3>
+        <p class="small">Seamless sample collection, strong infection control, and transparent pricing.</p>
+        <ul class="list">
+          <li>Home collection available</li>
+          <li>Automated analyzers with QA/QC</li>
+          <li>Reports via email & patient portal</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <main class="container" id="tests">
+    <h2>Available Test Categories</h2>
+    <div class="grid" style="margin-top:14px">
+      <!-- Hematology -->
+      <div class="card">
+        <div class="icon" aria-hidden="true">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M7 3c5 3 5 15 0 18" /><path d="M17 3c-5 3-5 15 0 18" />
+          </svg>
+        </div>
+        <h3>Hematology</h3>
+        <p>Blood cell counts & clotting studies to detect anemia, infections, and bleeding disorders.</p>
+        <details>
+          <summary>Common tests</summary>
+          <ul class="list">
+            <li>CBC (Complete Blood Count), ESR</li>
+            <li>Peripheral Smear, Reticulocyte Count</li>
+            <li>PT/INR, APTT (Coagulation Profile)</li>
+          </ul>
+        </details>
+      </div>
+
+      <!-- Biochemistry -->
+      <div class="card">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="6" y="3" width="12" height="18" rx="2"/><path d="M10 7h4M10 12h4M10 17h4"/>
+          </svg>
+        </div>
+        <h3>Clinical Biochemistry</h3>
+        <p>Organ function & metabolic health using blood and body fluid analytes.</p>
+        <details>
+          <summary>Common tests</summary>
+          <ul class="list">
+            <li>Glucose (Fasting, PP), HbA1c</li>
+            <li>Lipid Profile, LFT, RFT</li>
+            <li>Electrolytes (Na, K, Cl, Ca, Mg, Phos)</li>
+            <li>Thyroid profile (T3, T4, TSH)</li>
+            <li>Cardiac markers (Troponin, CK‑MB, LDH)</li>
+          </ul>
+        </details>
+      </div>
+
+      <!-- Immuno & Hormones -->
+      <div class="card">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="12" cy="12" r="9"/><path d="M8 12h8M12 8v8"/>
+          </svg>
+        </div>
+        <h3>Immunoassay & Hormones</h3>
+        <p>Hormones, vitamins, and tumor markers for endocrine and cancer care.</p>
+        <details>
+          <summary>Common tests</summary>
+          <ul class="list">
+            <li>FSH, LH, Prolactin, Testosterone, Estradiol, Progesterone</li>
+            <li>Vitamin D, Vitamin B12</li>
+            <li>PSA, CA‑125, CEA, CA 19‑9</li>
+          </ul>
+        </details>
+      </div>
+
+      <!-- Clinical Pathology -->
+      <div class="card">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M4 10h16v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2v-8z"/><path d="M7 10V7a5 5 0 0 1 10 0v3"/>
+          </svg>
+        </div>
+        <h3>Clinical Pathology</h3>
+        <p>Urine, stool & body fluid analysis to evaluate infection and organ disease.</p>
+        <details>
+          <summary>Common tests</summary>
+          <ul class="list">
+            <li>Urine Routine & Microscopy</li>
+            <li>Stool Routine & Occult Blood</li>
+            <li>CSF, Pleural, Ascitic, Synovial fluids</li>
+            <li>Semen Analysis</li>
+          </ul>
+        </details>
+      </div>
+
+      <!-- Microbiology & Serology -->
+      <div class="card">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <circle cx="12" cy="12" r="9"/><path d="M6 12a6 6 0 0 0 12 0"/>
+          </svg>
+        </div>
+        <h3>Microbiology & Serology</h3>
+        <p>Cultures, rapid tests & serology for bacterial, viral and fungal infections.</p>
+        <details>
+          <summary>Common tests</summary>
+          <ul class="list">
+            <li>Urine, Blood, Sputum, Stool cultures</li>
+            <li>HIV, HBsAg, HCV screening</li>
+            <li>Dengue, Malaria, Chikungunya</li>
+            <li>Widal (Typhoid), COVID‑19 RT‑PCR/Antigen</li>
+          </ul>
+        </details>
+      </div>
+
+      <!-- Histopathology & Cytology -->
+      <div class="card">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M4 7h16M4 12h16M4 17h16"/><circle cx="7" cy="7" r="1.6" fill="currentColor"/>
+          </svg>
+        </div>
+        <h3>Histopathology & Cytology</h3>
+        <p>Tissue and cell evaluation for cancers, inflammation and infections.</p>
+        <details>
+          <summary>Common tests</summary>
+          <ul class="list">
+            <li>Pap Smear, Liquid-based Cytology</li>
+            <li>FNAC for lumps</li>
+            <li>Biopsy (small/large), Frozen section</li>
+          </ul>
+        </details>
+      </div>
+
+      <!-- Molecular Diagnostics -->
+      <div class="card">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <path d="M7 3c6 6-6 12 0 18M17 3c-6 6 6 12 0 18"/>
+          </svg>
+        </div>
+        <h3>Molecular Biology & Genetics</h3>
+        <p>High‑accuracy PCR and genetic assays for rapid pathogen detection.</p>
+        <details>
+          <summary>Common tests</summary>
+          <ul class="list">
+            <li>HIV, HBV/HCV, HPV DNA (PCR)</li>
+            <li>GeneXpert (TB PCR & resistance)</li>
+            <li>Targeted molecular panels</li>
+          </ul>
+        </details>
+      </div>
+
+      <!-- Preventive Packages -->
+      <div class="card" id="packages">
+        <div class="icon">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
+            <rect x="4" y="7" width="16" height="13" rx="3"/><path d="M12 7V4m0 0a3 3 0 0 0-3 3m3-3a3 3 0 0 1 3 3"/>
+          </svg>
+        </div>
+        <h3>Preventive Health Packages</h3>
+        <p>Curated bundles for proactive health monitoring.</p>
+        <details>
+          <summary>Popular packages</summary>
+          <ul class="list">
+            <li>Basic Health Check‑Up</li>
+            <li>Diabetic Care Panel</li>
+            <li>Cardiac Risk Profile</li>
+            <li>Senior Citizen Comprehensive</li>
+            <li>Customized plans on request</li>
+          </ul>
+        </details>
+      </div>
+    </div>
+
+    <section id="faq" style="margin-top:26px">
+      <h2>FAQs</h2>
+      <details>
+        <summary>How do I prepare for fasting blood tests?</summary>
+        <p class="small">Typically 8–12 hours of fasting (water allowed). Follow your doctor’s advice for medications.</p>
+      </details>
+      <details>
+        <summary>How quickly will I receive my report?</summary>
+        <p class="small">Most routine tests are reported the same day or next morning. Specialized tests may take longer.</p>
+      </details>
+      <details>
+        <summary>Do you provide home sample collection?</summary>
+        <p class="small">Yes. Call our desk or book online to schedule a convenient home visit.</p>
+      </details>
+    </section>
+  </main>
+
+  <section class="band" id="book">
+    <div class="container">
+      <p><strong>Ready to book?</strong> Share your test list and contact details—our team will confirm your slot instantly.</p>
+      <a class="btn" style="background:#fff;color:var(--brand-blue)" href="#contact">Enquire Now</a>
+    </div>
+  </section>
+
+  <footer id="contact">
+    <div class="container">
+      <h3 style="color:#fff;margin-top:0">Contact Ineisha Diagnostic Laboratory</h3>
+      <div class="credits">
+        <p>Phone: +91-7204143737 • Email: contact@ineisha.com</p>
+        <p class="small">© <span id="year"></span> Ineisha Diagnostic Laboratory. All rights reserved.</p>
+      </div>
+    </div>
+    <script>document.getElementById('year').textContent=new Date().getFullYear()</script>
+  </footer>
+</body>
+</html>
